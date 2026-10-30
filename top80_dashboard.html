@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>A(I) Can Do That!? — EMEA Top 80</title>
+<style>
+/* ─── Design tokens ──────────────────────────────────────────────────── */
+:root {
+  --sap-blue:        #0070F2;
+  --sap-blue-dim:    #0057BD;
+  --sap-blue-bright: #1A8FFF;
+  --sap-blue-glow:   rgba(0,112,242,0.18);
+  --sap-blue-subtle: rgba(0,112,242,0.09);
+
+  --bg-base:    #0a0c10;
+  --bg-card:    #111418;
+  --bg-card2:   #161b22;
+  --bg-hover:   #1c2230;
+  --bg-active:  #1a2640;
+
+  --border:     rgba(255,255,255,0.07);
+  --border-hi:  rgba(0,112,242,0.45);
+
+  --txt-1: #e8edf3;
+  --txt-2: #8b97a8;
+  --txt-3: #5a6475;
+
+  /* Criterion colors */
+  --cr-c: #0070F2;
+  --cr-r: #00B4D8;
+  --cr-s: #7C3AED;
+  --cr-i: #10B981;
+
+  /* Score chip colors */
+  --chip-4: #10B981;
+  --chip-3: #0070F2;
+  --chip-2: #F59E0B;
+  --chip-1: #EF4444;
+
+  --gold:   #F59E0B;
+  --silver: #94A3B8;
+  --bronze: #CD7C2F;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+*,*::before,*::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "72","72full",system-ui,-apple-system,"Segoe UI",sans-serif;
+  background: var(--bg-base);
+  color: var(--txt-1);
+  min-height: 100vh;
+  line-height: 1.55;
+}
+
+/* ─── Top bar ────────────────────────────────────────────────────────── */
+.topbar {
+  background: #000;
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+}
+.topbar-logo { display: flex; align-items: center; gap: 10px; }
+.topbar-logo svg { width: 42px; height: 26px; flex-shrink: 0; }
+.topbar-title {
+  font-size: 13px;
+  color: var(--txt-2);
+  border-left: 1px solid var(--border);
+  padding-left: 16px;
+  margin-left: 4px;
+}
+.topbar-pill {
+  margin-left: auto;
+  background: var(--sap-blue-subtle);
+  border: 1px solid var(--border-hi);
+  border-radius: 20px;
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--sap-blue-bright);
+  letter-spacing: .4px;
+  text-transform: uppercase;
+}
+
+/* ─── Hero ───────────────────────────────────────────────────────────── */
+.hero {
+  text-align: center;
+  padding: 52px 24px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(0,112,242,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  color: var(--sap-blue-bright);
+  background: var(--sap-blue-subtle);
+  border: 1px solid var(--border-hi);
+  border-radius: 20px;
+  padding: 4px 14px;
+  margin-bottom: 18px;
+}
+.hero h1 {
+  font-size: clamp(26px, 4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -.5px;
+  line-height: 1.15;
+  margin-bottom: 10px;
+  background: linear-gradient(135deg, #e8edf3 30%, var(--sap-blue-bright) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-sub {
+  font-size: 14px;
+  color: var(--txt-2);
+  max-width: 560px;
+  margin: 0 auto 28px;
+}
+.hero-divider {
+  width: 48px;
+  height: 2px;
+  background: var(--sap-blue);
+  margin: 0 auto 28px;
+  border-radius: 2px;
+}
+
+/* ─── KPI row ────────────────────────────────────────────────────────── */
+.kpi-row {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+  padding: 0 24px;
+}
+.kpi {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 22px;
+  min-width: 120px;
+  text-align: center;
+  transition: border-color .2s, background .2s;
+}
+.kpi:hover { border-color: var(--border-hi); background: var(--bg-card2); }
+.kpi-val { font-size: 30px; font-weight: 700; color: var(--txt-1); line-height: 1; }
+.kpi-val.blue { color: var(--sap-blue-bright); }
+.kpi-label { font-size: 10px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: var(--txt-3); margin-top: 4px; }
+.kpi-sub { font-size: 10px; color: var(--txt-3); margin-top: 2px; }
+
+/* ─── Main layout ────────────────────────────────────────────────────── */
+.page-wrap {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ─── Controls bar ───────────────────────────────────────────────────── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+  padding: 14px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.controls-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--txt-3);
+  flex-shrink: 0;
+}
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 160px;
+  max-width: 280px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--txt-3);
+  pointer-events: none;
+}
+.search-input {
+  width: 100%;
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px 7px 32px;
+  font-size: 13px;
+  color: var(--txt-1);
+  outline: none;
+  transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--border-hi); }
+.search-input::placeholder { color: var(--txt-3); }
+.filter-group {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.filter-btn {
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--txt-2);
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  white-space: nowrap;
+}
+.filter-btn:hover { background: var(--bg-hover); border-color: var(--border-hi); }
+.filter-btn.active {
+  background: var(--sap-blue-subtle);
+  border-color: var(--border-hi);
+  color: var(--sap-blue-bright);
+}
+.sort-select {
+  background: var(--bg-base);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-size: 12px;
+  color: var(--txt-2);
+  outline: none;
+  cursor: pointer;
+  transition: border-color .2s;
+}
+.sort-select:focus { border-color: var(--border-hi); }
+.result-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: var(--txt-3);
+  white-space: nowrap;
+}
+
+/* ─── Score distribution chart ──────────────────────────────────────── */
+.chart-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+@media(max-width: 760px) { .chart-row { grid-template-columns: 1fr; } }
+.chart-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+}
+.chart-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--txt-1);
+  margin-bottom: 4px;
+}
+.chart-subtitle {
+  font-size: 11px;
+  color: var(--txt-3);
+  margin-bottom: 16px;
+}
+.bar-chart { display: flex; flex-direction: column; gap: 6px; }
+.bar-row {
+  display: grid;
+  grid-template-columns: 28px 1fr 32px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+.bar-row:hover .bar-fill { filter: brightness(1.2); }
+.bar-label { font-size: 11px; color: var(--txt-3); font-weight: 600; text-align: right; }
+.bar-track {
+  height: 20px;
+  background: var(--bg-card2);
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+.bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width .5s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+}
+.bar-fill-label { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.8); white-space: nowrap; }
+.bar-count { font-size: 11px; color: var(--txt-2); font-weight: 600; text-align: left; }
+
+/* Criterion avg chart */
+.crit-bars { display: flex; gap: 10px; align-items: flex-end; height: 100px; }
+.crit-col { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+.crit-bar-wrap {
+  width: 100%;
+  background: var(--bg-card2);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  align-items: flex-end;
+  height: 80px;
+}
+.crit-bar-inner {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  transition: height .5s cubic-bezier(.4,0,.2,1);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 6px;
+}
+.crit-bar-val { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.9); }
+.crit-bar-name { font-size: 10px; color: var(--txt-3); font-weight: 600; text-align: center; }
+.crit-axis { display: flex; align-items: center; height: 80px; flex-direction: column; justify-content: space-between; padding: 4px 0; margin-right: 4px; }
+.crit-axis span { font-size: 9px; color: var(--txt-3); }
+
+/* ─── Table ──────────────────────────────────────────────────────────── */
+.table-wrap {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.table-head-bar {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.table-head-bar h2 { font-size: 14px; font-weight: 600; }
+.table-head-bar p { font-size: 12px; color: var(--txt-3); margin-left: 4px; }
+.table-scroll { overflow-x: auto; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+thead th {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--txt-3);
+  padding: 9px 14px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+}
+thead th.sortable:hover { color: var(--txt-2); }
+thead th.sort-asc::after  { content: ' ↑'; color: var(--sap-blue-bright); }
+thead th.sort-desc::after { content: ' ↓'; color: var(--sap-blue-bright); }
+thead th:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) { text-align: center; }
+tbody tr {
+  transition: background .1s;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+}
+tbody tr:last-child { border-bottom: none; }
+tbody tr:hover td { background: var(--bg-hover); }
+tbody tr.expanded td { background: var(--bg-active); }
+tbody tr.detail-row td { padding: 0; border-bottom: 1px solid var(--border); }
+tbody td {
+  padding: 10px 14px;
+  vertical-align: middle;
+}
+tbody td:not(:nth-child(1)):not(:nth-child(2)):not(:nth-child(3)):not(:nth-child(4)) { text-align: center; }
+
+.td-rank { font-weight: 700; color: var(--txt-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.td-name { font-weight: 600; white-space: nowrap; }
+.td-notes { font-size: 11px; color: var(--txt-3); max-width: 280px; }
+.td-dur { font-size: 12px; color: var(--txt-2); white-space: nowrap; }
+.td-total { font-weight: 700; font-size: 15px; color: var(--sap-blue-bright); }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+}
+.chip-4 { background: var(--chip-4); }
+.chip-3 { background: var(--chip-3); }
+.chip-2 { background: var(--chip-2); color: #111; }
+.chip-1 { background: var(--chip-1); }
+
+/* Rank badge */
+.rank-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.rank-medal { font-size: 14px; }
+
+/* Score bar inside table */
+.score-bar-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 80px;
+}
+.score-bar-track {
+  flex: 1;
+  height: 6px;
+  background: var(--bg-hover);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.score-bar-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .4s ease;
+}
+.score-bar-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--sap-blue-bright);
+  min-width: 20px;
+  text-align: right;
+}
+
+/* ─── Expandable detail row ──────────────────────────────────────────── */
+.detail-inner {
+  padding: 20px 24px 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  border-top: 2px solid var(--sap-blue-subtle);
+}
+@media(max-width: 700px) { .detail-inner { grid-template-columns: 1fr; } }
+.detail-section h4 {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+  color: var(--txt-3);
+  margin-bottom: 8px;
+}
+.detail-section p {
+  font-size: 12px;
+  color: var(--txt-2);
+  line-height: 1.65;
+}
+.detail-crit-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+}
+.detail-crit-cell {
+  background: var(--bg-card2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  text-align: center;
+}
+.detail-crit-name {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color: var(--txt-3);
+  margin-bottom: 4px;
+}
+.detail-crit-val {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1;
+}
+.detail-crit-pips {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  margin-top: 6px;
+}
+.pip {
+  width: 8px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--bg-hover);
+}
+.pip.on { }
+
+/* ─── Empty state ────────────────────────────────────────────────────── */
+.empty-state {
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--txt-3);
+  font-size: 14px;
+}
+
+/* ─── Legend ─────────────────────────────────────────────────────────── */
+.legend-row {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 12px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-top: 14px;
+  margin-bottom: 20px;
+}
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--txt-2); }
+.ldot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
+
+/* ─── Tooltip ────────────────────────────────────────────────────────── */
+#tip {
+  position: fixed;
+  background: var(--bg-card2);
+  border: 1px solid var(--border-hi);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .1s;
+  max-width: 260px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.5);
+  z-index: 500;
+}
+#tip.show { opacity: 1; }
+#tip strong { display: block; font-size: 13px; color: var(--txt-1); margin-bottom: 3px; }
+#tip .ts { color: var(--txt-3); line-height: 1.5; }
+
+/* ─── Disqualified section ───────────────────────────────────────────── */
+.dq-section {
+  margin-top: 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.dq-summary {
+  padding: 14px 20px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--txt-2);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+}
+.dq-summary::-webkit-details-marker { display: none; }
+.dq-summary::before { content: '▶ '; font-size: 10px; color: var(--txt-3); }
+details[open] .dq-summary::before { content: '▼ '; }
+.dq-badge {
+  display: inline-block;
+  background: rgba(239,68,68,0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ─── Footer ─────────────────────────────────────────────────────────── */
+.footer {
+  text-align: center;
+  padding: 28px 24px;
+  font-size: 11px;
+  color: var(--txt-3);
+  border-top: 1px solid var(--border);
+}
+.footer a { color: var(--txt-3); text-decoration: none; border-bottom: 1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<!-- Top bar -->
+<nav class="topbar">
+  <div class="topbar-logo">
+    <svg viewBox="0 0 42 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="SAP">
+      <rect width="42" height="26" rx="3" fill="#0070F2"/>
+      <path d="M5.2 18.4c.6.4 1.5.7 2.5.7 1.1 0 1.7-.5 1.7-1.2 0-.7-.5-1.1-1.7-1.5C5.9 15.8 5 14.9 5 13.5c0-1.6 1.3-2.8 3.4-2.8.9 0 1.8.2 2.3.5l-.5 1.5c-.4-.2-1-.5-1.9-.5-.9 0-1.5.5-1.5 1.1 0 .7.5 1 1.8 1.5 1.9.7 2.7 1.6 2.7 3 0 1.6-1.2 2.9-3.6 2.9-1.1 0-2.1-.3-2.7-.7l.2-1.6zM14.3 10.9h-2.1l-2.6 9h2l.5-1.9h2.6l.5 1.9h2.1l-2.6-9h-.4zm-.9 5.6l.5-1.9c.1-.5.3-1.2.4-1.7.1.5.3 1.2.4 1.7l.5 1.9h-1.8zM21.5 10.9h-3v9h2v-3.2h1c2 0 3.3-1 3.3-2.9s-1.2-2.9-3.3-2.9zm-.1 4.4h-.9v-3.1h.9c.9 0 1.5.4 1.5 1.5 0 1.1-.6 1.6-1.5 1.6z" fill="white"/>
+    </svg>
+    <span class="topbar-title">A(I) Can Do That!? · EMEA 2026</span>
+  </div>
+  <div class="topbar-pill">Top 80 Rankings</div>
+</nav>
+
+<!-- Hero -->
+<header class="hero">
+  <div class="hero-eyebrow">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M6 4v2.5L7.5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    EMEA Tournament · Evaluated 2026-10-25
+  </div>
+  <h1>A(I) Can Do That!?<br>EMEA Top 80</h1>
+  <p class="hero-sub">159 total submissions. 46 disqualified (incl. Igor Li — use-case split across 4 separate videos). 113 scored. These are the top 80 valid entries ranked by total score.</p>
+  <div class="hero-divider"></div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-val">159</div>
+      <div class="kpi-label">Total</div>
+      <div class="kpi-sub">Submissions</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">46</div>
+      <div class="kpi-label">Disqualified</div>
+      <div class="kpi-sub">43 over 70s · 3 other</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">113</div>
+      <div class="kpi-label">Valid &amp; Scored</div>
+      <div class="kpi-sub">≤ 70s · work use-case</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val blue">80</div>
+      <div class="kpi-label">Shown Here</div>
+      <div class="kpi-sub">Top 80 by score</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val blue">16</div>
+      <div class="kpi-label">Max Score</div>
+      <div class="kpi-sub">4 criteria × 4 pts</div>
+    </div>
+  </div>
+</header>
+
+<div class="page-wrap">
+
+  <!-- Charts row -->
+  <div class="chart-row">
+
+    <!-- Score distribution -->
+    <div class="chart-card">
+      <div class="chart-title">Score distribution</div>
+      <div class="chart-subtitle">All 114 valid submissions by total score</div>
+      <div class="bar-chart" id="distChart"></div>
+    </div>
+
+    <!-- Criterion averages -->
+    <div class="chart-card">
+      <div class="chart-title">Average score by criterion</div>
+      <div class="chart-subtitle">Across the top 80 submissions (max 4 each)</div>
+      <div style="display:flex;align-items:flex-end;gap:0;margin-top:8px">
+        <div class="crit-axis">
+          <span>4</span><span>3</span><span>2</span><span>1</span><span>0</span>
+        </div>
+        <div class="crit-bars" id="critChart" style="flex:1"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Legend -->
+  <div class="legend-row">
+    <div class="legend-item"><div class="ldot" style="background:var(--cr-c)"></div>Creativity</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--cr-r)"></div>Replicability</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--cr-s)"></div>Storytelling</div>
+    <div class="legend-item"><div class="ldot" style="background:var(--cr-i)"></div>Impact</div>
+    <div class="legend-item" style="margin-left:auto">
+      <div class="ldot" style="background:var(--chip-4);border-radius:50%"></div>4
+      <div class="ldot" style="background:var(--chip-3);border-radius:50%;margin-left:8px"></div>3
+      <div class="ldot" style="background:var(--chip-2);border-radius:50%;margin-left:8px"></div>2
+      <div class="ldot" style="background:var(--chip-1);border-radius:50%;margin-left:8px"></div>1
+    </div>
+  </div>
+
+  <!-- Controls bar -->
+  <div class="controls">
+    <span class="controls-label">Filter</span>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="5.5" cy="5.5" r="4" stroke="currentColor" stroke-width="1.3"/><path d="M10 10L13 13" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+      <input type="text" class="search-input" id="searchInput" placeholder="Search name or notes…" autocomplete="off"/>
+    </div>
+    <div class="filter-group" id="scoreFilters">
+      <button class="filter-btn active" data-min="0"  data-max="16">All</button>
+      <button class="filter-btn" data-min="15" data-max="16">15–16</button>
+      <button class="filter-btn" data-min="14" data-max="14">14</button>
+      <button class="filter-btn" data-min="13" data-max="13">13</button>
+      <button class="filter-btn" data-min="12" data-max="12">12</button>
+      <button class="filter-btn" data-min="0"  data-max="11">≤11</button>
+    </div>
+    <select class="sort-select" id="sortSelect">
+      <option value="rank">Sort: Rank</option>
+      <option value="score-desc">Sort: Score ↓</option>
+      <option value="name">Sort: Name A–Z</option>
+      <option value="creativity">Sort: Creativity ↓</option>
+      <option value="replicability">Sort: Replicability ↓</option>
+      <option value="storytelling">Sort: Storytelling ↓</option>
+      <option value="impact">Sort: Impact ↓</option>
+    </select>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+
+  <!-- Rankings table -->
+  <div class="table-wrap">
+    <div class="table-head-bar">
+      <h2>Ranked Submissions</h2>
+      <p>C = Creativity · R = Replicability · S = Storytelling · I = Impact · Click row for detail</p>
+    </div>
+    <div class="table-scroll">
+      <table aria-label="Top 80 ranked submissions">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th class="sortable" data-sort="rank">Rank</th>
+            <th class="sortable" data-sort="name">Name</th>
+            <th>Notes</th>
+            <th class="sortable" data-sort="dur">Duration</th>
+            <th class="sortable" data-sort="creativity">C</th>
+            <th class="sortable" data-sort="replicability">R</th>
+            <th class="sortable" data-sort="storytelling">S</th>
+            <th class="sortable" data-sort="impact">I</th>
+            <th class="sortable" data-sort="score-desc" style="min-width:110px">Score</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+      <div class="empty-state" id="emptyState" style="display:none">No submissions match your filters.</div>
+    </div>
+  </div>
+
+  <!-- Disqualified section -->
+  <details class="dq-section">
+    <summary class="dq-summary">Disqualified Submissions (4)</summary>
+    <div class="table-wrap" style="margin-top:10px">
+      <div class="table-scroll">
+        <table aria-label="Disqualified submissions">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Duration</th>
+              <th>Reason</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="td-name">Igor Li (ep.1)</td>
+              <td class="td-dur">63s</td>
+              <td><span class="dq-badge">Use-case split across 4 separate 1-minute videos</span></td>
+            </tr>
+            <tr>
+              <td class="td-name">Igor Li (ep 2)</td>
+              <td class="td-dur">—</td>
+              <td><span class="dq-badge">Use-case split across 4 separate 1-minute videos</span></td>
+            </tr>
+            <tr>
+              <td class="td-name">Igor Li (ep 3)</td>
+              <td class="td-dur">67s</td>
+              <td><span class="dq-badge">Use-case split across 4 separate 1-minute videos</span></td>
+            </tr>
+            <tr>
+              <td class="td-name">Igor Li (ep 4)</td>
+              <td class="td-dur">67s</td>
+              <td><span class="dq-badge">Use-case split across 4 separate 1-minute videos</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </details>
+
+</div>
+
+<footer class="footer">
+  SAP Internal · A(I) Can Do That!? Tournament · EMEA 2026 · Rubric: Creativity + Replicability + Storytelling + Impact (1–4 each)
+</footer>
+
+<div id="tip"></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────
+   DATA — 113 valid submissions (Igor Li DQ'd — use-case split across 4 videos)
+   Rank = position in sorted list (ties share a rank)
+   #    = sequential submission number 1–80
+───────────────────────────────────────────────────────────────────── */
+const ALL = [
+  // Score 16
+  { name:"Hande Nakir",        c:4,r:4,s:4,i:4, dur:"55s", notes:"\"EWA Holmes\" — Sherlock Holmes framing; drag EWA report → customer-ready presentation in minutes; ranked risks, matched services; \"Elementary, my dear SPM\"; perfect score" },
+  // Score 15
+  { name:"Annabelle Ferrer",   c:4,r:3,s:4,i:4, dur:"63s", notes:"Video-game framing for RFP/pre-sales; EKX, Gemini, Claude Code, Agent Factory, Joule across full demo lifecycle; \"boss level unlocked\"; highly creative and impactful" },
+  { name:"Cagatay Ozak",       c:4,r:3,s:4,i:4, dur:"56s", notes:"2000+ downloads; Pre-Sales Advisor skill; 200+ data sources; parallel pulls in minutes; \"your next meeting is already waiting\"; proven scale" },
+  { name:"Sam Renshaw",        c:4,r:3,s:4,i:4, dur:"58s", notes:"Autonomous SIM game built with Claude; puts customers inside autonomous enterprise; 115 real agents; 3 metrics (revenue/cost/carbon); 12 quarters; \"no slides, no pre-recorded demos\"" },
+  // Score 14
+  { name:"Adam Kassab",        c:4,r:3,s:3,i:4, dur:"62s", notes:"Joule Desktop as sales engine; data cleaning, ML algorithm, Power Automate at scale; 6% pipeline increase in one quarter; highly detailed" },
+  { name:"Charlotte Bobrie",   c:3,r:3,s:4,i:4, dur:"67s", notes:"Multiple-tab matrix → Joule builds live dashboard; \"I didn't become a developer, I just stopped doing the boring part\"; team-accessible output; closing call-to-action" },
+  { name:"Christophe Bernard", c:4,r:3,s:3,i:4, dur:"59s", notes:"BTP CSM built real app (EKX + VS Code + Claude + BTP + Joule MCP); live demo; activity tracker + Joule email cross-check; strongest technical depth" },
+  { name:"Dale Clemitson",     c:3,r:3,s:4,i:4, dur:"53s", notes:"AE Deal Advisor; \"GPS for deal negotiations\"; Deal Advisor + Q&A mode; 7 sources in parallel; saves 1–2 days per complex deal; great analogy and impact" },
+  { name:"Nils Charvin",       c:3,r:3,s:4,i:4, dur:"56s", notes:"\"Coffee went cold\" hook; Claude Code → Joule account research agent with sourced contacts; \"one share later it was everyone's\"; pipeline started moving" },
+  { name:"Sara Sbacchi",       c:4,r:3,s:4,i:3, dur:"55s", notes:"\"Ask Joule to think like the customer\"; Joule as empathy engine — customer frustration, confusion, improvement ideas; \"Joule didn't change the process, it changed the conversation\"" },
+  { name:"Wissam Najih",       c:4,r:3,s:4,i:3, dur:"62s", notes:"Experience Studio; Claude Code turns client priorities into tailored HTML presentation; \"they see their own world\"; Willy Wonka-style demo ending" },
+  // Score 13
+  { name:"Adil Fettache",      c:4,r:2,s:4,i:3, dur:"58s", notes:"Creative \"hiring interview\" framing for AI Datasphere agent; highly original storytelling; steps not detailed enough to replicate but compelling demo" },
+  { name:"Anders Nymo",        c:3,r:4,s:3,i:3, dur:"64s", notes:"POV Pal tool; clear step-by-step walkthrough (5 steps), real customer outcome, CACV improvement mentioned" },
+  { name:"Duaa Alhajjar",      c:4,r:2,s:3,i:4, dur:"42s", notes:"Claude Code builds full demo stack (industry report, Signavio demo, wiki, exec presentation) in 5 weeks; impressive scope but steps only in narrated summary" },
+  { name:"Faidra Karasavvidi", c:3,r:4,s:3,i:3, dur:"56s", notes:"EKX email triage agent; CSV/email/text file drop; filters into Actions/Decisions/Risks/FYI with deadlines and owners; clear how-to steps; replicable" },
+  { name:"Hannah Kim",         c:4,r:2,s:4,i:3, dur:"55s", notes:"Weather forecast format for EMEA Q3 report; Airbus/Halian/Italy wins; highly creative presentation format; not directly replicable as a tool" },
+  { name:"Jayesh Vorani",      c:4,r:3,s:3,i:3, dur:"59s", notes:"SAP Slidewright for Joule Desktop; interviews you, approves storyline, SAP-branded, live quizzes, speaker notes; innovative concept" },
+  { name:"Jean-Rosalyn Vilsans",c:4,r:3,s:3,i:3,dur:"46s", notes:"Red Team + Spec Team AI governance framework; 4-persona review panel, human approval gates, retrospective self-improvement; original architecture" },
+  { name:"Kirill Kirilov",     c:3,r:4,s:3,i:3, dur:"49s", notes:"PEX Offering Tool; RISE migration estimation; import scope → 10 min → ROM docs + emails; autonomous agent monitors inbox; already in production" },
+  { name:"Laura Valentina Guevara Davila",c:3,r:4,s:3,i:3,dur:"57s",notes:"3-step content creation workflow: Joule script → Synthesia avatar → scripting bot for snackable content; team scales content across regions; clear 3 steps" },
+  { name:"Lisa-Marie Gravell", c:3,r:3,s:3,i:4, dur:"70s", notes:"Risk & Renewal Forecast Updater; 17 manual questions → seconds; CRM + inbox + guided validation; challenges assumptions; \"less admin, better forecasting, more time for customers\"" },
+  { name:"Louis Curl",         c:3,r:3,s:4,i:3, dur:"66s", notes:"Account radar with Joule; M&A/leadership/funding signals; DFSA furniture retailer example (legacy systems line buried in annual report); \"joining conversations already happening\"" },
+  { name:"Mariam Ezz",         c:3,r:4,s:3,i:3, dur:"65s", notes:"Campaign IQ; 4 clear steps (pick type → set params → generate → save); 45 min → under 5 min (9x faster); library builds team knowledge; very replicable" },
+  { name:"Mathis Williot",     c:4,r:3,s:3,i:3, dur:"48s", notes:"Second Brain in Obsidian + Claude Code + Joule; demo architectures, ALL Insight app on BTP; \"second brain creates this video on its own\"; meta and creative" },
+  { name:"Myrna Fahim",        c:3,r:3,s:3,i:4, dur:"59s", notes:"Blitz Day lead capture app on BTP; self-serve wizard (30 sec, no code); live leaderboard; \"no clipboard, no Excel\"; team/partner scalable" },
+  { name:"Nathalie Kadzioch",  c:3,r:3,s:4,i:3, dur:"58s", notes:"\"Hermione\" as AI assistant; email management, action tracking, Swedish document translation, code fix, leave handover — multiple real scenarios; engaging storytelling" },
+  { name:"Olivier Chicoineau", c:3,r:3,s:3,i:4, dur:"55s", notes:"SSE One-Stop Shop on BTP; Monday morning pipeline coach; deal prioritization + exit criteria + customer email in language; LinkedIn search + manager dashboard; scalable" },
+  { name:"Susana Lopez Zapatero",c:3,r:3,s:3,i:4,dur:"47s",notes:"Agent Flow by intern Anna Hill; consolidates partner development fund reporting; full cycle in 2 min; colleagues already adopting; \"game changer, not just for me\"" },
+  { name:"Youssef Malek",      c:3,r:4,s:3,i:3, dur:"43s", notes:"CBP Quote Analyzer; attach 2 files, plain-language ask → 37-item checklist + verdict + tracker comment; \"unknown is not a pass\"; clear steps" },
+  // Score 12
+  { name:"Aditya Keluskar",    c:3,r:3,s:3,i:3, dur:"51s", notes:"Built live ops dashboard in Python/FastAPI with Claude; 3 specific features described; intern on CXC team — work context clear" },
+  { name:"Andrey Prisyazhnyuk",c:3,r:2,s:3,i:4, dur:"55s", notes:"TQM cockpit; 5 systems + AI; saves 2–3 hrs/morning; 15 teams in Spain/Portugal already using it; scalable team-level impact" },
+  { name:"Anna Putilova",      c:3,r:3,s:3,i:3, dur:"49s", notes:"Joule skill for ECS delivery email templates; custom milestone templates; auto-saves to Outlook draft; practical, clear steps" },
+  { name:"Benoit Godefroy",    c:3,r:2,s:4,i:3, dur:"57s", notes:"\"There's only one of me\" hook; avatar voice-over; Copilot + Joule dashboard with ACV/CACV/renewals; \"I'm a real control tower\"; great storytelling" },
+  { name:"Bernard Stoit (Customer AI scenario)",c:3,r:3,s:3,i:3,dur:"48s",notes:"Joule Desktop → Joule Studio → HTML page for customer event (DPW); clear workflow, Ferreiro example; practical" },
+  { name:"Cezary Bulyka",      c:3,r:3,s:3,i:3, dur:"46s", notes:"Joule 360° customer assessment; 7 Excel files + PDF → Python script → executive presentation; clear steps; time savings implied" },
+  { name:"Claudia Carausu",    c:3,r:3,s:3,i:3, dur:"68s", notes:"Customer blocking risk classifier; SAC dashboard for cash flow; monthly report automation; clear problem-to-solution arc" },
+  { name:"Denys Tsiple",       c:3,r:3,s:3,i:3, dur:"55s", notes:"C4C Performance Analyzer; RAG/amber/green flagging; 8 hours → 4 hours; grounded in official SAP sources; clear steps" },
+  { name:"Edhyne Dable",       c:3,r:3,s:3,i:3, dur:"56s", notes:"CSM Hub app on BTP + Cloud Code; portfolio, quick wins, reference stories, road map in one app; humor (\"I drove, I won an iPad\")" },
+  { name:"Florencia Martino",  c:3,r:3,s:3,i:3, dur:"57s", notes:"Mentoring companion in Joule; session summaries, progress captured, Coho tracker updated; 125 colleagues across EMEA; thoughtful human-AI balance" },
+  { name:"Gabriel Serrano",    c:3,r:3,s:3,i:3, dur:"58s", notes:"ConfigSAP app; loads full SAP landscape by customer name/CID; 7 file types in parallel; TSM/DCM/TechOps use it; no manual setup; built with AI" },
+  { name:"Gregory Stebe",      c:3,r:3,s:3,i:3, dur:"55s", notes:"Humanizer Joule skill; removes AI writing patterns; \"just say humanize it\"; linked to SAP writing guidance; clear and useful" },
+  { name:"Gwendoline Tabourin",c:3,r:3,s:3,i:3, dur:"43s", notes:"Newsletter Editor built with Claude Code; full pipeline (collect → write → design → manage versions); \"full week to fraction of time\"; SAP Labs France" },
+  { name:"Hamid Bouguetache",  c:3,r:4,s:2,i:3, dur:"50s", notes:"Browser-based AI prompt injector via Violent Monkey; extracts MCC case details, builds DEA-standard prompt, opens SAP Gen AI; clear install steps; technical and original" },
+  { name:"Iguacel Ordejon",    c:3,r:3,s:3,i:3, dur:"49s", notes:"AI Objection Navigator; 8-question context input; live coach + Quick Fire response; \"10 minutes to CIO meeting\" hook" },
+  { name:"Jan Esteve",         c:3,r:3,s:3,i:3, dur:"56s", notes:"Sales Companion discovery prep kit; role-specific pain points, competitive objections, talk tracks; \"82% of top sellers research before a call\"; no third-party tools" },
+  { name:"Jeroen Smits",       c:3,r:3,s:3,i:3, dur:"52s", notes:"McKinsey Situation-Complication-Key Question skill in Joule; uploaded Minto's book + McKinsey materials; saves hours for whole team; clear concept" },
+  { name:"Jesus Bernal",       c:3,r:3,s:3,i:3, dur:"67s", notes:"AI campaign builder; reads partner docs + fast packages → personalized email sequences in <5 min; multi-language, A/B testing; team/partner scale" },
+  { name:"Kahina Belmiloud",   c:3,r:2,s:3,i:4, dur:"55s", notes:"Win/loss intelligence automation; interview tracking, multi-language, summaries → battle cards → exec dashboards; \"sharper product decisions, stronger sales conversations\"" },
+  { name:"Karim Fathelbab",    c:3,r:3,s:3,i:3, dur:"61s", notes:"\"Diamonds formed under pressure\" metaphor; Joule + CRM → one-pager → MEDDIC qualification + outreach; elegant analogy, clear workflow" },
+  { name:"Karla Kralj",        c:3,r:3,s:3,i:3, dur:"53s", notes:"New joiner (5 months); EKX + Joule → interactive website for partner pipeline KPIs + marketing calendar; \"AI doesn't make decisions, it gives space for better ones\"" },
+  { name:"Maria Ramirez",      c:3,r:2,s:3,i:3, dur:"65s", notes:"Project Pulse; RPB score + opportunity signals → personalized digital assets; \"our people create the experience, AI scales it\"; good" },
+  { name:"Neha Yadav",         c:3,r:3,s:3,i:3, dur:"57s", notes:"SAP Decode with Joule; 5–6 SAP tools unified; account mapping, white space, stakeholder tailored emails; \"98% faster\"" },
+  { name:"Nevine Wahba",       c:3,r:3,s:3,i:3, dur:"42s", notes:"Meeting Intelligence Briefing in Joule; partner name → company context + emails + open issues + agenda + learning recs; complete prep in one input" },
+  { name:"Simone Zema",        c:3,r:3,s:3,i:3, dur:"42s", notes:"SAP Talk performance coach in Joule; scans email history for client sign-offs, praise, metrics; 80% prep time reduction; \"100% verified data\"" },
+  { name:"Sneha Patil",        c:3,r:3,s:3,i:3, dur:"59s", notes:"Autonomous Enterprise FAQ skill in Joule; aggregates FAQs from Sessions, Work Zone, Teams; confidence levels; \"created using AI too\"; clean" },
+  { name:"Surya Kumar Govindan",c:3,r:3,s:3,i:3,dur:"54s", notes:"CAA Code Validator; upload code + customer ID → LLM checks wiki pages; 30 min → seconds; \"two extra cups of coffee\" line adds humor" },
+  // Score 11
+  { name:"Aasif Khan",         c:3,r:2,s:3,i:3, dur:"63s", notes:"Uses Joule/Jules to scan industry signals and map to accounts; BAE Systems example; strong use-case but steps not fully explained" },
+  { name:"Andrea Sanchez",     c:2,r:3,s:3,i:3, dur:"56s", notes:"Good problem/solution arc; Joule research + 1360 + CMI; \"3 hours to 3 minutes\" is strong; steps somewhat clear" },
+  { name:"Ann-Sofie Hubschneider",c:3,r:2,s:3,i:3,dur:"54s",notes:"Augeas AI data platform for demand generation; good problem framing; no replication steps" },
+  { name:"Clement Poisson",    c:3,r:2,s:3,i:3, dur:"37s", notes:"Machine design team of one; Joule + Synthesia + Claude + After Effects for content production; \"full team output by one person\"; concise but creative" },
+  { name:"Daniel Alamo",       c:3,r:2,s:3,i:3, dur:"54s", notes:"Feed Me Back coaching tool; before/after/debrief flow; good concept but steps not fully detailed" },
+  { name:"Ethan Maldonado",    c:2,r:3,s:3,i:3, dur:"47s", notes:"Customer reference manager; Joule analyzed reference DB, flagged inactive accounts, matched by industry, sent emails; \"half a day to minutes\"" },
+  { name:"James Hirst",        c:2,r:3,s:3,i:3, dur:"67s", notes:"SMB UK Analyst + Concur SMB Sales Assistant in Joule; \"first principles\" approach to identifying automation targets; well-structured but moderate creativity" },
+  { name:"Jasjeet Singh",      c:3,r:3,s:2,i:3, dur:"59s", notes:"Business Case Dashboard; VLM benchmarks; NPV/ROI/payback; one input to full presentation; narrated summary format limits storytelling score" },
+  { name:"Luigi Simoncini",    c:3,r:2,s:3,i:3, dur:"57s", notes:"\"Beautiful Questions\" method (Warren Berger); Y/What if/How/Story/Build framework in Joule; thoughtful but limited replication clarity" },
+  { name:"Masoud Ahanchian",   c:3,r:2,s:3,i:3, dur:"41s", notes:"Trellis — landscape builder that draws itself + BOM in Joule Work Desktop; cinematic narration style; short on steps" },
+  { name:"Maysoon Ashraf",     c:2,r:3,s:3,i:3, dur:"66s", notes:"Joule for UAE discovery call prep; 4-minute prep; company context, pain points, questions, competitive angle; CIO testimonial included" },
+  { name:"Mohamed El Saadany", c:2,r:3,s:3,i:3, dur:"57s", notes:"Perplexity + Copilot + Joule for prospecting; \"40% reduction in manual tasks\"; clear combination of tools; good but not highly creative" },
+  { name:"Mohamed Sadat",      c:3,r:2,s:3,i:3, dur:"60s", notes:"Animated video; stressed father uses Joule + Copilot for S/4HANA discovery + pitch + meeting follow-up; clever framing; steps not detailed" },
+  { name:"Mohan Kumar",        c:3,r:2,s:3,i:3, dur:"67s", notes:"AI Crystal Ball; predict escalations 48hrs ahead; replay incidents for learning; proactive CSM use-case" },
+  { name:"Nicole Bohorad",     c:3,r:2,s:3,i:3, dur:"55s", notes:"Customer Strategy Explorer; GVA + AI Agent Valley; SLB (energy) case study; microsite + PowerPoint in 1 hour" },
+  { name:"Paul Saunier",       c:3,r:2,s:3,i:3, dur:"50s", notes:"Interactive AI platform for pitching Autonomous Enterprise; Joule demo with real metrics (24% job posting savings, 18% transport costs); interview format" },
+  // Score 10
+  { name:"Aykutalp Kavurmac",  c:3,r:2,s:2,i:3, dur:"66s", notes:"Project Heartbeat — health scoring of delivery projects via emails/tickets; narrated summary only; no steps; good concept" },
+  { name:"Bernard Stoit (DPW Spend Connect)",c:2,r:3,s:2,i:3,dur:"44s",notes:"SharePoint + Excel + EKX dashboard for supplier management; clear use-case for event demos; moderate creativity" },
+  { name:"Dorothee De la Chaise",c:2,r:2,s:3,i:3,dur:"43s",notes:"EA assistant use-case; Joule for email drafts, task summary, cross-timezone scheduling; relatable story; limited replication steps" },
+  { name:"Hedaya Elgohary",    c:2,r:3,s:2,i:3, dur:"55s", notes:"Discovery meeting assistant in Joule; CRM ID → fetches 360 data + discovery questions; clear steps; moderate creativity" },
+  { name:"Jonathan Soret short",c:3,r:2,s:3,i:2,dur:"59s", notes:"Synthesia avatar for SAP AI Discovery Centre; rapped/sung sections; creative format; limited replication steps or measured impact" },
+  { name:"Maria Angeles Sanchez",c:2,r:3,s:2,i:3,dur:"44s",notes:"One AI Space Manager + Joule Work Desktop; ticket response from 5 min to seconds; short demo; moderate overall" },
+  { name:"Matteo Mazzalveri",  c:2,r:3,s:2,i:3, dur:"69s", notes:"GSSP Cockpit dashboard from ADRMJPR Excel; partners, pipeline KPIs; narrated script format; moderate storytelling" },
+  { name:"Miguel Rosa Henrique",c:3,r:2,s:3,i:2,dur:"47s", notes:"Adobe Firefly for customer presentations, demos, events (Sapphire); drew robot mascot; creative visual work; limited replication detail" },
+  { name:"Nicola Jennings",    c:2,r:3,s:2,i:3, dur:"43s", notes:"Renewal executive; AI skill for \"scrubbing\" renewals data; pulls + filters data for quote building; efficient but limited narrative" },
+  { name:"Omar Radwan",        c:2,r:2,s:3,i:3, dur:"48s", notes:"EKX + Joule for supply chain discovery across 5 countries; fleet manager at national power utility example; good story but limited steps" },
+  { name:"Sander Hefting",     c:3,r:3,s:2,i:2, dur:"49s", notes:"EKX dead-link checker; checks URLs, generates Excel report; narrated summary format; useful tool, limited impact shown" },
+  { name:"Stylianos Vaiou",    c:2,r:3,s:2,i:3, dur:"56s", notes:"Derivative pricing checker skill in Joule; Excel BOM upload → pricing validation with reasoning; Global Commercial Finance use-case; functional" },
+  { name:"Yannick Vanroelen",  c:3,r:2,s:3,i:2, dur:"50s", notes:"Territory change reports in Joule; see every change across HCM/Rise/Supply Chain; \"scanning for smoke\" metaphor; incomplete at end" },
+  // Score 9
+  { name:"Diego Rodriguez Salas",c:2,r:3,s:2,i:2,dur:"63s",notes:"EKX cold call tracking app; replaces Excel; clear UI walkthrough; functional but low creative originality" },
+  { name:"Fabrizio Maria Guidi",c:2,r:3,s:2,i:2,dur:"59s",notes:"Prompt in Joule to analyze documents and anticipate client challenges; generic concept; steps are vague beyond \"upload and prompt\"" },
+  { name:"Hakan Pehlivan",     c:2,r:2,s:3,i:2, dur:"60s", notes:"Superpower metaphor; Joule for Consultants + EKX + Sora; generic framing, moderate storytelling; no measurable impact" },
+  { name:"Matteo Grilli",      c:2,r:2,s:3,i:2, dur:"58s", notes:"Day-in-life of a seller with Joule (emails, market news space, EKX for discovery); pleasant but generic; \"just unstoppable\" — low specifics" },
+  { name:"Nora Kasparian",     c:2,r:3,s:2,i:2, dur:"70s", notes:"Joule Desktop for SAP Connect roundtable agenda; MXP + 1360 connectors; white space analysis; functional but low narrative engagement" },
+  { name:"Prabhith Prabhakaran",c:2,r:3,s:2,i:2,dur:"54s",notes:"Joule Work Desktop for customer meeting tracking; HTML pages as project trackers; useful but modest creativity and impact" },
+  { name:"Rafael Borges",      c:2,r:2,s:2,i:3, dur:"58s", notes:"Centralized reporting hub in Claude Code; pipeline motion, forecasts, stakeholder reports; auto-updates twice daily; limited story arc" },
+  { name:"Sandra Attala",      c:2,r:3,s:2,i:2, dur:"65s", notes:"SAP Brand & Design skill in Joule Work Desktop; solves branded deck problem; clear before/after; narrated summary" },
+  // Score 8
+  { name:"Lars Elmquist",      c:2,r:2,s:2,i:2, dur:"48s", notes:"Building a procurement e-book with Perplexity/Copilot/EKX/Joule; interesting but 50% complete; modest impact" },
+  { name:"Pablo Gimeno",       c:2,r:2,s:2,i:2, dur:"56s", notes:"Reference advisor using Joule to cross-check dashboard data and generate outreach emails; transcript cuts off mid-demo; incomplete" },
+  { name:"Yunus San",          c:2,r:2,s:2,i:2, dur:"65s", notes:"Proposes SAP AI solutions to Yemekhane (restaurant/cafeteria); cost alternatives, personalized menu suggestions; narrated summary; limited depth" },
+  // Score 7
+  { name:"Almog Cohen",        c:2,r:1,s:2,i:2, dur:"60s", notes:"Narrated description only; no specific steps, no metrics; vague overview of Joule Desktop capabilities" },
+  { name:"Anthony Arbane",     c:2,r:1,s:2,i:2, dur:"48s", notes:"Funny concept (Joule as intern) but mostly vague; says \"18 checks manually\" then set up automations; no steps; limited impact demonstrated" },
+  { name:"Christian Petersen (Prompt to Proposal)",c:2,r:2,s:1,i:2,dur:"42s",notes:"Narrated description of Joule Work creating a BTP proposal; shows prompt; no spoken walkthrough; low story engagement" },
+  { name:"Jacob Vaidyan",      c:2,r:2,s:1,i:2, dur:"55s", notes:"Joule + Copilot for learning plan + calendar blocking; narrated summary only; no engaging delivery" },
+  { name:"Mohab Elzanaty",     c:1,r:2,s:2,i:2, dur:"58s", notes:"Generic walkthrough of Joule Desktop, EKX, Synthesia; \"these are the main tools I use\"; no specific results or innovation" },
+  { name:"Nada Elselehdar",    c:1,r:2,s:2,i:2, dur:"39s", notes:"Joule for territory reports; \"half a day to minutes\"; straightforward but minimal creativity and no steps" },
+  { name:"Ramy Botros",        c:2,r:1,s:2,i:2, dur:"60s", notes:"Narrated/summary description of Joule Work Desktop extensions for demo scripts and microsites; no real engagement or steps" },
+  { name:"Sherihan Megahed",   c:2,r:1,s:2,i:2, dur:"52s", notes:"Rap/song format about Joule for MEA North pipeline; creative presentation but unclear what was built; more motivational than demonstrative" },
+  { name:"Sybonara Hingn",     c:2,r:2,s:1,i:2, dur:"60s", notes:"EKX + Joule for OneDrive document search → RISE KPI space; narrated description; low engagement" },
+  // Score 6
+  { name:"Badr Yasser",        c:1,r:1,s:2,i:2, dur:"57s", notes:"Generic description of using Joule Desktop to read emails and prep for meetings; no specific steps, no metrics, vague" },
+  { name:"Christian Petersen (Joule LinkedIn)",c:2,r:1,s:1,i:2,dur:"60s",notes:"Narrated summary only; no spoken content, no steps; very limited detail" },
+  { name:"Frederic Kang",      c:2,r:1,s:2,i:1, dur:"60s", notes:"Silent film concept is creative but execution is all narration; no real demonstration of Joule/EKX" },
+  { name:"Mariam Makram",      c:1,r:1,s:2,i:2, dur:"54s", notes:"Generic Joule overview; \"ask, get answers, turn insight into action\"; no specific use-case, no steps, no metrics" },
+  // Score 5
+  { name:"Domenico Burinato",  c:1,r:1,s:1,i:2, dur:"52s", notes:"Rambling overview of using Joule for Consultants, iCapaix, Joule Work Desktop; no clear story or steps; vague" },
+  { name:"Stefanos Iskos",     c:1,r:1,s:1,i:2, dur:"55s", notes:"Very minimal — Joule briefing, Claude dashboard, \"AI organises things\"; nearly no story or replication content" },
+].filter(Boolean); // 113 valid submissions (Igor Li DQ'd)
+
+/* Assign scores and rank */
+ALL.forEach(d => { d.score = d.c + d.r + d.s + d.i; });
+ALL.sort((a,b) => b.score - a.score || a.name.localeCompare(b.name));
+
+/* Assign rank (ties share a rank) */
+let prevScore = null, prevRank = 0;
+ALL.forEach((d, i) => {
+  if (d.score !== prevScore) { prevRank = i + 1; }
+  d.rank = prevRank;
+  prevScore = d.score;
+});
+
+/* Keep only top 80 */
+const DATA = ALL.slice(0, 80);
+
+/* ─────────────────────────────────────────────────────────────────────
+   SCORE DISTRIBUTION — built from ALL (all 113 valid entries)
+───────────────────────────────────────────────────────────────────── */
+const freq = {};
+ALL.forEach(d => { freq[d.score] = (freq[d.score] || 0) + 1; });
+
+function buildDistChart() {
+  const el = document.getElementById('distChart');
+  const scores = Object.keys(freq).map(Number).sort((a,b) => b-a);
+  const maxCount = Math.max(...Object.values(freq));
+  el.innerHTML = scores.map(s => {
+    const cnt = freq[s];
+    const pct = (cnt / maxCount) * 100;
+    const color = s>=15?'var(--chip-4)':s>=13?'var(--chip-3)':s>=11?'#F59E0B':'#5a6475';
+    const inTop80 = s >= (DATA[DATA.length-1]?.score ?? 0);
+    return `
+      <div class="bar-row" onclick="filterByScore(${s})" title="Score ${s}: ${cnt} submission${cnt>1?'s':''}">
+        <div class="bar-label">${s}</div>
+        <div class="bar-track">
+          <div class="bar-fill" style="width:${pct}%;background:${color}">
+            <span class="bar-fill-label">${cnt}</span>
+          </div>
+        </div>
+        <div class="bar-count">${cnt}</div>
+      </div>`;
+  }).join('');
+}
+
+function buildCritChart() {
+  const el = document.getElementById('critChart');
+  const crits = [
+    { key:'c', label:'C', color:'var(--cr-c)' },
+    { key:'r', label:'R', color:'var(--cr-r)' },
+    { key:'s', label:'S', color:'var(--cr-s)' },
+    { key:'i', label:'I', color:'var(--cr-i)' },
+  ];
+  const avgs = crits.map(cr => {
+    const avg = DATA.reduce((sum, d) => sum + d[cr.key], 0) / DATA.length;
+    return { ...cr, avg };
+  });
+  const maxAvg = 4;
+  el.innerHTML = avgs.map(cr => {
+    const heightPct = (cr.avg / maxAvg) * 100;
+    return `
+      <div class="crit-col">
+        <div class="crit-bar-wrap" style="height:80px">
+          <div class="crit-bar-inner" style="height:${heightPct}%;background:${cr.color}">
+            <span class="crit-bar-val">${cr.avg.toFixed(1)}</span>
+          </div>
+        </div>
+        <div class="crit-bar-name">${cr.label}</div>
+      </div>`;
+  }).join('');
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   HELPERS
+───────────────────────────────────────────────────────────────────── */
+function chipHtml(val) {
+  return `<span class="chip chip-${val}">${val}</span>`;
+}
+
+function scoreBarHtml(score) {
+  const pct = (score / 16) * 100;
+  const color = score>=15?'var(--chip-4)':score>=13?'var(--chip-3)':score>=11?'#F59E0B':'#5a6475';
+  return `
+    <div class="score-bar-wrap">
+      <div class="score-bar-track"><div class="score-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+      <div class="score-bar-val">${score}</div>
+    </div>`;
+}
+
+function rankBadgeHtml(rank) {
+  if (rank === 1)  return `<span class="rank-badge"><span class="rank-medal">🥇</span> 1</span>`;
+  if (rank <= 3)   return `<span class="rank-badge"><span class="rank-medal">🥈</span> ${rank}</span>`;
+  if (rank <= 10)  return `<span class="rank-badge"><span class="rank-medal">🥉</span> ${rank}</span>`;
+  return `<span class="rank-badge" style="color:var(--txt-2)">${rank}</span>`;
+}
+
+function pipHtml(val, color) {
+  return [1,2,3,4].map(p =>
+    `<div class="pip${p<=val?' on':''}" style="${p<=val?`background:${color}`:''}"></div>`
+  ).join('');
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   STATE
+───────────────────────────────────────────────────────────────────── */
+let expandedIdx = null;
+let filterMin = 0, filterMax = 16;
+let searchText = '';
+let sortKey = 'rank';
+
+function filteredData() {
+  let rows = DATA.filter(d =>
+    d.score >= filterMin && d.score <= filterMax &&
+    (searchText === '' || d.name.toLowerCase().includes(searchText) || d.notes.toLowerCase().includes(searchText))
+  );
+  if (sortKey === 'rank')          rows.sort((a,b) => a.rank - b.rank || a.name.localeCompare(b.name));
+  else if (sortKey === 'score-desc') rows.sort((a,b) => b.score - a.score || a.name.localeCompare(b.name));
+  else if (sortKey === 'name')     rows.sort((a,b) => a.name.localeCompare(b.name));
+  else if (sortKey === 'creativity')   rows.sort((a,b) => b.c - a.c || b.score - a.score);
+  else if (sortKey === 'replicability') rows.sort((a,b) => b.r - a.r || b.score - a.score);
+  else if (sortKey === 'storytelling')  rows.sort((a,b) => b.s - a.s || b.score - a.score);
+  else if (sortKey === 'impact')        rows.sort((a,b) => b.i - a.i || b.score - a.score);
+  else if (sortKey === 'dur')    rows.sort((a,b) => parseInt(a.dur) - parseInt(b.dur));
+  return rows;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   RENDER TABLE
+───────────────────────────────────────────────────────────────────── */
+function render() {
+  const rows = filteredData();
+  const tbody = document.getElementById('tableBody');
+  const empty = document.getElementById('emptyState');
+  const count = document.getElementById('resultCount');
+
+  count.textContent = `${rows.length} of ${DATA.length} shown`;
+  empty.style.display = rows.length === 0 ? 'block' : 'none';
+
+  tbody.innerHTML = rows.map((d, vi) => {
+    const dataIdx = DATA.indexOf(d);
+    const subNum = dataIdx + 1; // sequential submission number 1–80
+    const isExpanded = expandedIdx === dataIdx;
+    const detailHtml = isExpanded ? buildDetailHtml(d) : '';
+
+    return `
+    <tr class="${isExpanded ? 'expanded' : ''}"
+        onclick="toggleRow(${dataIdx})"
+        id="row-${dataIdx}"
+        onmouseenter="showTip(event,'${escHtml(d.name)}','${escHtml(d.notes)}',${d.score})"
+        onmousemove="moveTip(event)"
+        onmouseleave="hideTip()">
+      <td class="td-rank" style="color:var(--txt-3);min-width:36px">${subNum}</td>
+      <td class="td-rank">${rankBadgeHtml(d.rank)}</td>
+      <td class="td-name">${escHtml(d.name)}</td>
+      <td class="td-notes">${escHtml(d.notes.substring(0,100))}${d.notes.length>100?'…':''}</td>
+      <td class="td-dur">${d.dur}</td>
+      <td>${chipHtml(d.c)}</td>
+      <td>${chipHtml(d.r)}</td>
+      <td>${chipHtml(d.s)}</td>
+      <td>${chipHtml(d.i)}</td>
+      <td>${scoreBarHtml(d.score)}</td>
+    </tr>
+    ${isExpanded ? `<tr class="detail-row" id="detail-${dataIdx}"><td colspan="10"><div class="detail-inner">${detailHtml}</div></td></tr>` : ''}`;
+  }).join('');
+
+  /* Update sort indicators */
+  document.querySelectorAll('thead th').forEach(th => {
+    th.classList.remove('sort-asc','sort-desc');
+    if (th.dataset.sort === sortKey) th.classList.add('sort-desc');
+  });
+}
+
+function buildDetailHtml(d) {
+  const crits = [
+    { key:'c', label:'Creativity',    color:'var(--cr-c)' },
+    { key:'r', label:'Replicability', color:'var(--cr-r)' },
+    { key:'s', label:'Storytelling',  color:'var(--cr-s)' },
+    { key:'i', label:'Impact',        color:'var(--cr-i)' },
+  ];
+  const critCells = crits.map(cr => `
+    <div class="detail-crit-cell">
+      <div class="detail-crit-name" style="color:${cr.color}">${cr.label}</div>
+      <div class="detail-crit-val" style="color:${cr.color}">${d[cr.key]}</div>
+      <div class="detail-crit-pips">${pipHtml(d[cr.key], cr.color)}</div>
+    </div>`).join('');
+
+  return `
+    <div class="detail-section">
+      <h4>What they built</h4>
+      <p>${escHtml(d.notes)}</p>
+    </div>
+    <div class="detail-section">
+      <h4>Score breakdown · ${d.score}/16 · ${d.dur}</h4>
+      <div class="detail-crit-row">${critCells}</div>
+    </div>`;
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   INTERACTION
+───────────────────────────────────────────────────────────────────── */
+function toggleRow(idx) {
+  expandedIdx = expandedIdx === idx ? null : idx;
+  render();
+  if (expandedIdx !== null) {
+    const el = document.getElementById(`row-${idx}`);
+    if (el) setTimeout(() => el.scrollIntoView({ behavior:'smooth', block:'nearest' }), 50);
+  }
+}
+
+function filterByScore(score) {
+  filterMin = score;
+  filterMax = score;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  searchText = '';
+  document.getElementById('searchInput').value = '';
+  render();
+}
+
+/* Filter buttons */
+document.getElementById('scoreFilters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  filterMin = parseInt(btn.dataset.min);
+  filterMax = parseInt(btn.dataset.max);
+  expandedIdx = null;
+  render();
+});
+
+/* Search */
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchText = e.target.value.trim().toLowerCase();
+  expandedIdx = null;
+  render();
+});
+
+/* Sort */
+document.getElementById('sortSelect').addEventListener('change', e => {
+  sortKey = e.target.value;
+  expandedIdx = null;
+  render();
+});
+
+/* Column header sort */
+document.querySelectorAll('thead th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    sortKey = th.dataset.sort;
+    document.getElementById('sortSelect').value = sortKey;
+    expandedIdx = null;
+    render();
+  });
+});
+
+/* Tooltip */
+const tip = document.getElementById('tip');
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function showTip(e, name, notes, score) {
+  tip.innerHTML = `<strong>${name}</strong><div class="ts">${notes.substring(0,120)}${notes.length>120?'…':''}</div><div class="ts" style="margin-top:4px;color:var(--sap-blue-bright);font-weight:600">${score}/16</div>`;
+  tip.classList.add('show');
+  posTip(e);
+}
+function moveTip(e) { posTip(e); }
+function hideTip() { tip.classList.remove('show'); }
+function posTip(e) {
+  const x = e.clientX + 14, y = e.clientY - 10;
+  tip.style.left = (x + 280 > window.innerWidth ? e.clientX - 290 : x) + 'px';
+  tip.style.top  = (y + 100 > window.innerHeight ? e.clientY - 110 : y) + 'px';
+}
+
+/* ─────────────────────────────────────────────────────────────────────
+   INIT
+───────────────────────────────────────────────────────────────────── */
+buildDistChart();
+buildCritChart();
+render();
+</script>
+</body>
+</html>
